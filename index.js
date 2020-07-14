@@ -4,6 +4,8 @@ const bodyParser = require("body-parser")
 const sqlite = require("sqlite")
 const dbConnection = sqlite.open("banco.sqlite", { Promise })
 
+const port = process.env.PORT || 3000
+
 app.set("view engine", "ejs")
 app.use(express.static("public"))
 app.use(bodyParser.urlencoded({extended: true}))
@@ -103,12 +105,12 @@ app.post("/admin/vagas/editar/:id", async(req, res) => {
   await db.run(`UPDATE vagas set categoria =${categoria}, titulo = '${titulo}', descricao = '${descricao}' WHERE id = ${id}`)
   res.redirect("/admin/vagas")
 })
-// app.use(function (req,res,next){
-//   //res.redirect("/")
-//   res.render("error")
-// });
+app.use(function (req,res,next){
+  //res.redirect("/")
+  res.render("error")
+});
 
-app.listen(3000, (err) =>{
+app.listen(port, (err) =>{
   if(err){
     console.log("algo deu errado")
   } else {
